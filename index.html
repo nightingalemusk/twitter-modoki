@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>トレンド表</title>
+</head>
+<body>
+    <h1>トレンド表</h1>
+    <ul id="trendList"></ul>
+
+    <script>
+        // ページの読み込みが完了したら、トレンドを取得する
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchTrends();
+        });
+
+        // APIからJSONデータを取得し、トレンド表を作成する関数
+        function fetchTrends() {
+            fetch('https://trend-api.deno.dev/')
+                .then(response => response.json())
+                .then(data => {
+                    const trendList = document.getElementById('trendList');
+                    data.forEach(trend => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${trend.rank}: ${trend.name}`;
+                        trendList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('エラー:', error);
+                });
+        }
+    </script>
+</body>
+</html>
